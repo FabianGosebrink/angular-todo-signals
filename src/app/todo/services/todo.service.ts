@@ -20,7 +20,7 @@ export class TodoService {
 
   addItem(value: string) {
     this.http.post<Todo>(this.url, { value }).subscribe((addedTodo) => {
-      this.todos.mutate((items) => items.push(addedTodo));
+      this.todos.update((items) => [...items, addedTodo]);
     });
   }
 
@@ -30,7 +30,11 @@ export class TodoService {
     this.http
       .put<Todo>(`${this.url}/${value.id}`, value)
       .subscribe((updatedTodo) => {
-        this.todos.mutate((items) => (items[index] = updatedTodo));
+        this.todos.update((items) => {
+          items[index] = updatedTodo;
+
+          return items;
+        });
       });
   }
 
