@@ -33,14 +33,14 @@ export class TodoService {
         this.todos.update((items) => {
           items[index] = updatedTodo;
 
-          return items;
+          return [...items];
         });
       });
   }
 
   removeitem(id: string) {
     this.http.delete(`${this.url}/${id}`).subscribe(() => {
-      this.todos.update((items) => items.filter((item) => item.id !== id));
+      this.todos.update((items) => [...items.filter((item) => item.id !== id)]);
     });
   }
 }

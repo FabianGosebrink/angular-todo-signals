@@ -16,9 +16,25 @@ export class TodoMainComponent {
   private todoService = inject(TodoService);
 
   count = computed(() => {
-    const allItems = this.todoService.todos();
+    const allItems = this.todos();
 
     return allItems.length;
+  });
+
+  doneItems = computed(() => {
+    const allItems = this.todos();
+
+    console.log(allItems);
+
+    return allItems.filter((item) => item.done)?.length;
+  });
+
+  openItems = computed(() => {
+    const allItems = this.todos();
+
+    console.log(allItems);
+
+    return allItems.filter((item) => !item.done)?.length;
   });
 
   todos = this.todoService.todos;
