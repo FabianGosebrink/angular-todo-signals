@@ -14,7 +14,6 @@ import { TodoService } from '../../services/todo.service';
 })
 export class TodoMainComponent {
   private todoService = inject(TodoService);
-
   count = this.todoService.count;
   doneItems = this.todoService.doneItems;
   openItems = this.todoService.openItems;
@@ -30,6 +29,8 @@ export class TodoMainComponent {
 
   ngOnInit(): void {
     this.todoService.getItems();
+
+    console.log('Todos:', this.sortedTodos());
   }
 
   addTodo(value: string) {
