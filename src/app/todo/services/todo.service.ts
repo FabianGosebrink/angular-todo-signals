@@ -10,7 +10,7 @@ export class TodoService {
   private url = `${environment.apiUrl}todos`;
   private http = inject(HttpClient);
 
-  todos = signal<Todo[]>([]);
+  private todos = signal<Todo[]>([]);
 
   count = computed(() => {
     const allItems = this.todos();
@@ -30,6 +30,12 @@ export class TodoService {
     return allItems.filter((item) => !item.done)?.length;
   });
 
+  sortedTodos = computed(() => {
+    const allItems = this.todos();
+
+    return allItems.sort((b, a) => +b.done - +a.done);
+  });
+
   getItems() {
     this.http.get<Todo[]>(this.url).subscribe((todos) => {
       this.todos.set(todos);
@@ -38,17 +44,22 @@ export class TodoService {
 
   addItem(value: string) {
     this.http.post<Todo>(this.url, { value }).subscribe((addedTodo) => {
-      this.todos.update((items) => [...items, addedTodo]);
+      this.todos.update((items) => [addedTodo, ...items]);
     });
   }
 
   updateItem(value: Todo) {
-    const index = this.todos().findIndex((item) => item.id === value.id);
-
     this.http
       .put<Todo>(`${this.url}/${value.id}`, value)
       .subscribe((updatedTodo) => {
         this.todos.update((items) => {
+          if (updatedTodo.done) {
+            const allOtherItems = items.filter((item) => item.id !== value.id);
+
+            return [...allOtherItems, updatedTodo];
+          }
+
+          const index = this.todos().findIndex((item) => item.id === value.id);
           items[index] = updatedTodo;
 
           return [...items];

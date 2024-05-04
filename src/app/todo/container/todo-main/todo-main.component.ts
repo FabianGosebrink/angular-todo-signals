@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { Todo } from '../../models/todo';
 import { TodoFormComponent } from '../../presentational/todo-form/todo-form.component';
 import { TodoListComponent } from '../../presentational/todo-list/todo-list.component';
@@ -18,9 +18,15 @@ export class TodoMainComponent {
   count = this.todoService.count;
   doneItems = this.todoService.doneItems;
   openItems = this.todoService.openItems;
-  todos = this.todoService.todos;
+  sortedTodos = this.todoService.sortedTodos;
 
   title = 'todo-signals';
+
+  constructor() {
+    effect(() => {
+      console.log('Todos changed:', this.sortedTodos());
+    });
+  }
 
   ngOnInit(): void {
     this.todoService.getItems();

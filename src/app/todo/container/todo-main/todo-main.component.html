@@ -7,7 +7,7 @@
 
   <app-todo-form (todoAdded)="addTodo($event)"></app-todo-form>
   <app-todo-list
-    [items]="todos()"
+    [items]="sortedTodos()"
     (delete)="deleteTodo($event)"
     (markAsDone)="markAsDone($event)"
   ></app-todo-list>
