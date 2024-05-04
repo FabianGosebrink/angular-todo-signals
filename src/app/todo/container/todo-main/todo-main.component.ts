@@ -24,15 +24,11 @@ export class TodoMainComponent {
   doneItems = computed(() => {
     const allItems = this.todos();
 
-    console.log(allItems);
-
     return allItems.filter((item) => item.done)?.length;
   });
 
   openItems = computed(() => {
     const allItems = this.todos();
-
-    console.log(allItems);
 
     return allItems.filter((item) => !item.done)?.length;
   });
