@@ -9,7 +9,6 @@ import { Todo } from '../models/todo';
 export class TodoService {
   private url = `${environment.apiUrl}todos`;
   private http = inject(HttpClient);
-
   private todos = signal<Todo[]>([]);
 
   count = computed(() => {
@@ -53,16 +52,11 @@ export class TodoService {
       .put<Todo>(`${this.url}/${value.id}`, value)
       .subscribe((updatedTodo) => {
         this.todos.update((items) => {
-          if (updatedTodo.done) {
-            const allOtherItems = items.filter((item) => item.id !== value.id);
-
-            return [...allOtherItems, updatedTodo];
+          if (this.itemIsDone(updatedTodo)) {
+            return this.moveToTheEnd(items, updatedTodo);
           }
 
-          const index = this.todos().findIndex((item) => item.id === value.id);
-          items[index] = updatedTodo;
-
-          return [...items];
+          return this.replaceOnIndex(items, updatedTodo);
         });
       });
   }
@@ -71,5 +65,22 @@ export class TodoService {
     this.http.delete(`${this.url}/${id}`).subscribe(() => {
       this.todos.update((items) => [...items.filter((item) => item.id !== id)]);
     });
+  }
+
+  private itemIsDone(item: Todo) {
+    return item.done;
+  }
+
+  private moveToTheEnd(items: Todo[], updatedTodo: Todo) {
+    const allOtherItems = items.filter((item) => item.id !== updatedTodo.id);
+
+    return [...allOtherItems, updatedTodo];
+  }
+
+  private replaceOnIndex(items: Todo[], updatedTodo: Todo) {
+    const index = items.findIndex((item) => item.id === updatedTodo.id);
+    items[index] = updatedTodo;
+
+    return [...items];
   }
 }
