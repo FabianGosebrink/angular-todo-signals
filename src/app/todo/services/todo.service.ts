@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Todo } from '../models/todo';
 
@@ -11,6 +11,24 @@ export class TodoService {
   private http = inject(HttpClient);
 
   todos = signal<Todo[]>([]);
+
+  count = computed(() => {
+    const allItems = this.todos();
+
+    return allItems.length;
+  });
+
+  doneItems = computed(() => {
+    const allItems = this.todos();
+
+    return allItems.filter((item) => item.done)?.length;
+  });
+
+  openItems = computed(() => {
+    const allItems = this.todos();
+
+    return allItems.filter((item) => !item.done)?.length;
+  });
 
   getItems() {
     this.http.get<Todo[]>(this.url).subscribe((todos) => {

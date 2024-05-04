@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Todo } from '../../models/todo';
 import { TodoFormComponent } from '../../presentational/todo-form/todo-form.component';
 import { TodoListComponent } from '../../presentational/todo-list/todo-list.component';
@@ -15,24 +15,9 @@ import { TodoService } from '../../services/todo.service';
 export class TodoMainComponent {
   private todoService = inject(TodoService);
 
-  count = computed(() => {
-    const allItems = this.todos();
-
-    return allItems.length;
-  });
-
-  doneItems = computed(() => {
-    const allItems = this.todos();
-
-    return allItems.filter((item) => item.done)?.length;
-  });
-
-  openItems = computed(() => {
-    const allItems = this.todos();
-
-    return allItems.filter((item) => !item.done)?.length;
-  });
-
+  count = this.todoService.count;
+  doneItems = this.todoService.doneItems;
+  openItems = this.todoService.openItems;
   todos = this.todoService.todos;
 
   title = 'todo-signals';
