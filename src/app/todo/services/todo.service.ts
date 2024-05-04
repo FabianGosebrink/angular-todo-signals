@@ -11,29 +11,13 @@ export class TodoService {
   private http = inject(HttpClient);
   private todos = signal<Todo[]>([]);
 
-  count = computed(() => {
-    const allItems = this.todos();
+  count = computed(() => this.todos().length);
 
-    return allItems.length;
-  });
+  doneItems = computed(() => this.todos().filter((item) => item.done)?.length);
 
-  doneItems = computed(() => {
-    const allItems = this.todos();
+  openItems = computed(() => this.todos().filter((item) => !item.done)?.length);
 
-    return allItems.filter((item) => item.done)?.length;
-  });
-
-  openItems = computed(() => {
-    const allItems = this.todos();
-
-    return allItems.filter((item) => !item.done)?.length;
-  });
-
-  sortedTodos = computed(() => {
-    const allItems = this.todos();
-
-    return allItems.sort((b, a) => +b.done - +a.done);
-  });
+  sortedTodos = computed(() => this.todos().sort((b, a) => +b.done - +a.done));
 
   getItems() {
     this.http.get<Todo[]>(this.url).subscribe((todos) => {

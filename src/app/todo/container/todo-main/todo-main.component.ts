@@ -29,8 +29,6 @@ export class TodoMainComponent {
 
   ngOnInit(): void {
     this.todoService.getItems();
-
-    console.log('Todos:', this.sortedTodos());
   }
 
   addTodo(value: string) {
