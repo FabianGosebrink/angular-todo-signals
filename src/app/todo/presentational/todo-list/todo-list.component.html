@@ -1,5 +1,5 @@
 <ul class="bg-white rounded-lg shadow divide-y divide-gray-300">
-  @for (item of items; track item.id) {
+  @for (item of items(); track item.id) {
   <li class="px-4 py-2 flex items-center">
     <input
       type="checkbox"

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { Todo } from '../../models/todo';
 
 @Component({
@@ -10,11 +10,11 @@ import { Todo } from '../../models/todo';
   styleUrls: ['./todo-list.component.scss'],
 })
 export class TodoListComponent {
-  @Input() items: Todo[] = [];
-  @Input() doneItems: Todo[] = [];
+  items = input<Todo[]>([]);
+  doneItems = input<Todo[]>([]);
 
-  @Output() markAsDone = new EventEmitter();
-  @Output() delete = new EventEmitter();
+  markAsDone = output<Todo>();
+  delete = output<Todo>()
 
   moveToDone(item: Todo) {
     item.done = !item.done;

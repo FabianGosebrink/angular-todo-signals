@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, inject } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -10,9 +10,9 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
   styleUrls: ['./todo-form.component.scss'],
 })
 export class TodoFormComponent {
-  private formBuilder = inject(FormBuilder);
+  todoAdded = output<string>()
 
-  @Output() todoAdded = new EventEmitter();
+  private formBuilder = inject(FormBuilder);
 
   form = this.formBuilder.group({
     todoValue: ['', Validators.required],
