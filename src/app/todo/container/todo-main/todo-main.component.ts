@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, inject } from '@angular/core';
+import { Component, effect, inject, OnInit } from '@angular/core';
 import { Todo } from '../../models/todo';
 import { TodoFormComponent } from '../../presentational/todo-form/todo-form.component';
 import { TodoListComponent } from '../../presentational/todo-list/todo-list.component';
@@ -12,14 +12,13 @@ import { TodoService } from '../../services/todo.service';
   templateUrl: './todo-main.component.html',
   styleUrls: ['./todo-main.component.scss'],
 })
-export class TodoMainComponent {
+export class TodoMainComponent implements OnInit {
+  title = 'todo-signals';
   private todoService = inject(TodoService);
   count = this.todoService.count;
   doneItems = this.todoService.doneItems;
   openItems = this.todoService.openItems;
   sortedTodos = this.todoService.sortedTodos;
-
-  title = 'todo-signals';
 
   constructor() {
     effect(() => {
