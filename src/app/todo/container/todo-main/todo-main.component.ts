@@ -13,8 +13,8 @@ import { TodoService } from '../../services/todo.service';
   styleUrls: ['./todo-main.component.scss'],
 })
 export class TodoMainComponent implements OnInit {
-  title = 'todo-signals';
   private todoService = inject(TodoService);
+  
   count = this.todoService.count;
   doneItems = this.todoService.doneItems;
   openItems = this.todoService.openItems;
