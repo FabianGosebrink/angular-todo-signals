@@ -14,7 +14,7 @@ import { TodoService } from '../../services/todo.service';
 })
 export class TodoMainComponent implements OnInit {
   private todoService = inject(TodoService);
-  
+
   count = this.todoService.count;
   doneItems = this.todoService.doneItems;
   openItems = this.todoService.openItems;
@@ -22,7 +22,8 @@ export class TodoMainComponent implements OnInit {
 
   constructor() {
     effect(() => {
-      console.log('Todos changed:', this.sortedTodos());
+      // console.log('Todos changed:', this.sortedTodos())
+      console.log('Todos changed (effect):', this.count());
     });
   }
 
@@ -31,7 +32,8 @@ export class TodoMainComponent implements OnInit {
   }
 
   addTodo(value: string) {
-    this.todoService.addItem(value);
+    this.todoService.replaceItem();
+    // this.todoService.addItem(value);
   }
 
   deleteTodo(item: Todo): void {

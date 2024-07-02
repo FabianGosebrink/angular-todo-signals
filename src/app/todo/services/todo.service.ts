@@ -11,7 +11,10 @@ export class TodoService {
   private http = inject(HttpClient);
   private todos = signal<Todo[]>([]);
 
-  count = computed(() => this.todos().length);
+  count = computed(() => {
+    console.log('Todos changed (count):', this.todos().length);
+    return this.todos().length;
+  });
 
   doneItems = computed(() => this.todos().filter((item) => item.done)?.length);
 
@@ -23,6 +26,10 @@ export class TodoService {
     this.http.get<Todo[]>(this.url).subscribe((todos) => {
       this.todos.set(todos);
     });
+  }
+
+  replaceItem() {
+    this.todos.update((items) => [...items]);
   }
 
   addItem(value: string) {
