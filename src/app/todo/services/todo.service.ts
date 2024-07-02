@@ -52,7 +52,7 @@ export class TodoService {
       });
   }
 
-  removeitem(id: string) {
+  removeItem(id: string) {
     this.http.delete(`${this.url}/${id}`).subscribe(() => {
       this.todos.update((items) => [...items.filter((item) => item.id !== id)]);
     });

@@ -37,7 +37,7 @@ export class TodoMainComponent implements OnInit {
   }
 
   deleteTodo(item: Todo): void {
-    this.todoService.removeitem(item.id);
+    this.todoService.removeItem(item.id);
   }
 
   markAsDone(item: Todo): void {
